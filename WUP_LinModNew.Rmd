@@ -34,11 +34,13 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 ## Model 1 SIM~ARMS
 
 ### scatterplot
+
 ```{r}
 plot(SIMS~ARM,data=data)
-model1=lm(SIMS~ARM, data=data)
+model.1=lm(SIMS~ARM, data=data)
 abline(model.1)
 ```
+
 
 
 The scattered plot shows the stimulated strength increase.
