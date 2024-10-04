@@ -40,6 +40,7 @@ model1=lm(SIMS~ARM, data=data)
 abline(model.1)
 ```
 
+
 The scattered plot shows the stimulated strength increase.
 
 ### Numerical results
@@ -57,41 +58,88 @@ model.1 <- lm(SIMS~ARM,data=data)
 summary.lm(model.1)
 ```
 
-
+Model.1 shows that the intercept and coefficient of ARM are both significantly different from zero. 
 
 #### Predict at target point
 
+```{r}
+targtPoint = data.frame (GRIP=94, ARM=88)
+predictInt = predict(model.1, targtPoint, interval = 'prediction')
+print(predictInt)
+```
 
 #### scatterplot with model fit
+at ARM=88, GRIP=94, the predicted SIMS score is 0.71. The 95% confidence interval for the score is SIMS between -1.73 and 3.14. 
+
   
 
 ## Model 2 SIM~GRIP
 
-### Now add in scatterplot
 
+### Now add in scatterplot
+```{r}
+plot(SIMS~GRIP,data=data)
+model.2=lm(SIMS~GRIP, data=data)
+abline(model.2)
+```
+
+The scattered plot shows us the stimulated strength increase.
 
 ### Numerical results 
 
+```{r}
+cor(SIMS~GRIP,data=data)
+```
+
+correlation = 0.69 shows moderate positive correlation between SIMS score and ARM strength
 
 ### Inferential  (Build model.2)
   
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+```
+
+Model.2 shows that the intercept and coefficient of GRIP are both significantly different from zero. 
+
 
 #### predict model.2 at target point
 
+```{r}
+targtPoint = data.frame (GRIP=94, ARM=88)
+predictInt = predict(model.2, targtPoint, interval = 'prediction')
+print(predictInt)
+```
+
+At ARM=88, GRIP=94, the predicted SIMS score is 0.54. The 95% confidence interval for the score is SIMS between -3.11 and 2.04. 
+
 #### now add the model fit to our plot for model.2
-  
 
 
 ## Model 3 SIM~ARM+GRIP
+```{r}
+model.3 = lm(SIMS~ARM+GRIP,data=data)
+summary(model.3)
+```
+
+Both ARM and GRIP are significantly different from zero because they are both less than 0.05
 
 ### Numerical results (cor)
+```{r}
+cor(data)
+```
 
-`
+This shows that SIMS correlates with GRIP and ARM values
   
 ### Inferential  (Build 2-dimentional model.3)
 
+
 #### predict model.3 at target point
-  
+
+```{r}
+predict(model.3, targtPoint,interval='prediction')
+```
+
 
 ## Comparing nested models ANOVA Test
 
@@ -99,4 +147,18 @@ summary.lm(model.1)
 ### Model.2 vs Model.3
 
 ## Informally compare Model.1 with model.2
+
+```{r}
+anova_result <- anova(model.1,model.3)
+print(anova_result)
+```
+Model.2 is better than model.1 because the p-value for comparison is less than .05
+```{r}
+anova_result <- anova(model.2,model.3)
+print(anova_result)
+```
+
+
+
+
 
